@@ -15,8 +15,8 @@ export default {
             payment: 5,
 
             roundStarted: false,
-            userStay: false,
-            croupierStay: false,
+            userStand: false,
+            dealerStand: false,
 
             deck: [], // deck[CardModel]
             colors: ['COEUR', 'PIQUE', 'TREFLE', 'CARREAU'],
@@ -37,22 +37,22 @@ export default {
             ],
 
             userCards: [],
-            croupierCards: []
+            dealerCards: []
 
         }
     },
 
     computed: {
         userScore() {
-            if (this.userCards.length == 0) return null;
+            if (this.userCards.length == 0) return 0;
             return this.userCards.reduce(function (accumulator, currentCard) {
                 return accumulator + currentCard.value;
             }, 0);
         },
 
-        croupierScore() {
-            if (this.croupierCards.length == 0) return 0;
-            return this.croupierCards.reduce(function (accumulator, currentCard) {
+        dealerScore() {
+            if (this.dealerCards.length == 0) return 0;
+            return this.dealerCards.reduce(function (accumulator, currentCard) {
                 return accumulator + currentCard.value;
             }, 0);
         },
@@ -62,9 +62,9 @@ export default {
             return this.userCards.length == 2 && this.userScore == 21;
         },
 
-        isCroupierBlackjack() {
-            if (this.croupierCards.length == 0) return null;
-            return this.croupierCards.length == 2 && this.croupierScore == 21;
+        isDealerBlackjack() {
+            if (this.dealerCards.length == 0) return null;
+            return this.dealerCards.length == 2 && this.dealerScore == 21;
         },
 
         userWin() {
@@ -72,36 +72,53 @@ export default {
             if (this.userScore > 21) return false;
 
             // Round finished
-            if (this.userStay && this.croupierStay) {
+            if (this.userStand && this.dealerStand) {
                 // Defeat
-                if (this.userScore < this.croupierScore && this.croupierScore <= 21) return false;
+                if (this.userScore < this.dealerScore && this.dealerScore <= 21) return false;
 
                 // Victory
-                if (this.userScore > this.croupierScore) return true;
-                if (this.userScore < this.croupierScore && this.croupierScore > 21) return true;
+                if (this.userScore > this.dealerScore) return true;
+                if (this.userScore < this.dealerScore && this.dealerScore > 21) return true;
 
                 // Null
-                if (this.userScore == this.croupierScore) return null;
+                if (this.userScore == this.dealerScore) return null;
             }
 
             return undefined; // Round in progress
         },
 
-        isRoundFinished() {
+        roundFinished() {
             return this.userWin === true || this.userWin === false;
+        },
+
+        doubleAllowed() {
+            return this.payment * 2 <= this.money
         }
     },
 
     watch: {
         isUserBlackjack: {
             handler() {
-                if (this.isUserBlackjack) this.stay();
+                if (this.isUserBlackjack) {
+                    this.money += (this.payment * 2.5)
+                    this.stand();
+                }
             }
         },
 
         userScore: {
             handler() {
-                if (this.userScore >= 21) this.stay();
+                if (this.userScore >= 21) this.stand();
+            }
+        },
+
+        roundFinished: {
+            handler() {
+                if (this.roundFinished) {
+                    if (this.userWin == true) {
+                        this.money += (this.payment * 2)
+                    }
+                }
             }
         }
     },
@@ -110,19 +127,18 @@ export default {
         startGame() {
             this.deck = [];
             this.userCards = [];
-            this.croupierCards = [];
-            this.payment = 5;
-            this.money = 100;
+            this.dealerCards = [];
             this.roundStarted = false;
-            this.croupierStay = false;
-            this.userStay = false;
+            this.dealerStand = false;
+            this.userStand = false;
 
             //TODO : delete after this comment
-            this.bet()
+            // this.bet()
         },
 
         bet() {
             this.money -= this.payment;
+            this.startGame();
             this.startRound();
         },
 
@@ -133,16 +149,16 @@ export default {
             this.generateNewDeck();
             this.shuffleDeck();
 
-            // Draw 
-            this.drawUserCard();
+            // Hit 
+            this.hitUserCard();
             setTimeout(() => {
-                this.drawCroupierCard()
+                this.hitDealerCard()
             }, 300);
             setTimeout(() => {
-                this.drawUserCard()
+                this.hitUserCard()
             }, 600)
 
-            // DRAW BLACKJACK
+            // HIT BLACKJACK
             // this.userCards = [
             //     new CardModel("PIQUE", "AS", 11), new CardModel("PIQUE", "K", 10)
             // ]
@@ -165,7 +181,7 @@ export default {
             }
         },
 
-        drawCard() {
+        hitCard() {
             var card = this.deck.shift();
             if (card == undefined) {
                 alert("Card undefined : deck empty");
@@ -175,8 +191,8 @@ export default {
             return card;
         },
 
-        drawUserCard() {
-            var card = this.drawCard();
+        hitUserCard() {
+            var card = this.hitCard();
 
             if (card.code == 'AS' && this.userScore + 11 <= 21) {
                 card.value = 11;
@@ -185,21 +201,34 @@ export default {
             this.userCards.push(card);
         },
 
-        drawCroupierCard() {
-            var card = this.drawCard();
-            this.croupierCards.push(card);
+        hitDealerCard() {
+            var card = this.hitCard();
+
+            if (card.code == 'AS' && this.dealerScore + 11 <= 21) {
+                card.value = 11;
+            }
+
+            this.dealerCards.push(card);
         },
 
-        stay() {
-            this.userStay = true;
+        double() {
+            this.money -= this.payment;
+            this.payment *= 2;
+
+            this.hitUserCard();
+            this.stand();
+        },
+
+        stand() {
+            this.userStand = true;
 
             if (this.userScore <= 21) {
-                while (this.croupierScore < 17) {
-                    this.drawCroupierCard()
+                while (this.dealerScore < 17) {
+                    this.hitDealerCard()
                 }
             }
 
-            this.croupierStay = true;
+            this.dealerStand = true;
         }
     },
 

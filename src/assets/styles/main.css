@@ -1,3 +1,5 @@
+@import "variables.css";    
+
 html, body, #app {
     height: 100%; 
     margin: 0 auto;
@@ -12,6 +14,7 @@ html, body, #app {
     position: relative;
     background: rgb(59, 162, 71);
     background: radial-gradient(circle, rgba(59, 162, 71, 1) 0%, rgba(31, 91, 29, 1) 100%);
+    z-index: 1;
 }
 
 .container-buttons {
@@ -21,14 +24,6 @@ html, body, #app {
     align-items: center;
     justify-content: center;
     padding: 2%;
-}
-
-.btn, .input-text {
-    padding: 10px 20px;
-    margin: 1px;
-}
-
-.btn-stay {
 }
 
 .boardcard {
@@ -52,4 +47,114 @@ html, body, #app {
 }
 .text-equal {
     color: blue;
+}
+
+
+.board {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.container-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.between {
+    justify-content: space-between !important;
+}
+
+/*   FOOTER   */
+
+.footer {
+    height: 100px;
+    width: 100%;
+    background-color: rgb(32, 32, 32);
+    z-index: 1;
+}
+
+.payment-display {
+    background-color: white;
+    margin: 5px;
+    font-size: 2rem;
+    height: 60px;
+    border-radius: 10px;
+    width: 80%;
+    font-weight: 600;
+    margin-top: 10px !important;
+    margin-bottom: 0;
+}
+
+
+/*    BUTTONS    */
+
+.btn {
+    border: unset;
+    position: relative;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: var(--color-action);
+    font-weight: 600;
+    font-size: 1.3rem;
+    min-width: 100px;
+    border-radius: 10px;
+    color: white;
+    height: 50px;
+}
+
+.btn::after {
+    content: "";
+    border-radius: 10px;
+    background-color: var(--color-action-sub);
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    z-index: -1;
+    cursor: pointer;
+}
+
+
+.btn-bet {
+    background-color: #9a29eb;
+}
+.btn-bet::after {
+    background-color: #6e03b9;
+}
+.btn-danger {
+    background-color: var(--color-danger);
+}
+.btn-danger::after {
+    background-color: var(--color-danger-sub);
+}
+.btn-success {
+    background-color: var(--color-success);
+}
+.btn-success::after {
+    background-color: var(--color-success-sub);
+}
+.btn-warning {
+    background-color: var(--color-warning);
+}
+.btn-warning::after {
+    background-color: var(--color-warning-sub);
+}
+
+.btn-sm {
+    width: 60px;
+    min-width: unset !important;
 }

@@ -1,4 +1,5 @@
 import Card from '@/components/card.vue'
+import Footer from '@/views/footer.vue'
 
 import CardModel from '@/models/card.model.js';
 
@@ -6,7 +7,8 @@ export default {
     name: 'Index',
 
     components: {
-        Card
+        Card,
+        Footer
     },
 
     data() {
@@ -136,7 +138,8 @@ export default {
             // this.bet()
         },
 
-        bet() {
+        bet(payload) {
+            this.payment = payload.payment;
             this.money -= this.payment;
             this.startGame();
             this.startRound();
@@ -229,6 +232,10 @@ export default {
             }
 
             this.dealerStand = true;
+        },
+
+        split() {
+            //Todo
         }
     },
 

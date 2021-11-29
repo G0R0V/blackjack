@@ -1,0 +1,12 @@
+@media only screen and (max-device-width : 480px) {
+    .btn {
+        padding: 5px 10px;
+        min-width: 80px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .payment-display {
+        height: 55px;
+    }
+}

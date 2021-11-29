@@ -20,6 +20,9 @@ export default {
         doubleAllowed: {
             type: Boolean
         },
+        splitAllowed: {
+            type: Boolean
+        },
 
         userStand: {
 
@@ -68,8 +71,8 @@ export default {
             this.$emit("stand")
         },
 
-        startGame() {
-            this.$emit("startGame")
+        resetGame() {
+            this.$emit("resetGame")
         },
 
         plus() {

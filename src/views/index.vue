@@ -1,29 +1,11 @@
 <template>
   <div id="boardgame">
     <div class="board">
-      <div
-        style="
-          color: white;
-          position: absolute;
-          bottom: 0%;
-          left: 0;
-          font-size: 1.3rem;
-        "
-      >
-        <h2>
-          <b>Your money : {{ money }}$</b>
-        </h2>
-        <h2>
-          <b  v-if="roundStarted">Payment : {{ payment }}$</b>
-        </h2>
-      </div>
       <div v-if="roundStarted" class="boardcard">
         <!-- Dealer's cards -->
         <div class="board-croupier">
-          <div class="container-buttons" style="margin-top: 0">
-            <button class="btn">
-              <b>{{ dealerScore }}</b>
-            </button>
+          <div class="score-display">
+            {{ dealerScore }}
           </div>
           <div class="container-cards">
             <Card
@@ -44,11 +26,30 @@
             ></Card>
             <b v-if="isUserBlackjack" style="color: red">Blackjack !</b>
           </div>
-          <div class="container-buttons">
-            <button class="btn">
-              <b>{{ userScore }}</b>
-            </button>
+          <div
+            class="score-display"
+            :class="
+              userWin !== undefined
+                ? userWin === false
+                  ? 'bg-danger'
+                  : userWin === true
+                  ? 'bg-success'
+                  : 'bg-action'
+                : ''
+            "
+          >
+            {{ userScore }}
           </div>
+        </div>
+      </div>
+
+      <!-- Balance -->
+      <div class="balance-display container-flex between">
+        <div>
+          <b>Balance {{ money }}$</b>
+        </div>
+        <div v-if="roundStarted">
+          <b>Bet {{ payment }}$</b>
         </div>
       </div>
     </div>
@@ -61,12 +62,13 @@
       :userStand="userStand"
       :userCards="userCards"
       :money="money"
+      :splitAllowed="splitAllowed"
       @bet="bet"
       @hit="hitUserCard"
       @double="double"
       @split="split"
       @stand="stand"
-      @startGame="startGame"
+      @resetGame="resetGame"
     />
   </div>
 </template>

@@ -1,9 +1,8 @@
 <template>
   <div class="card" :class="isBlack ? 'card-black' : 'card-red'">
-    <div>
-      <b>{{ card.code }} {{ card.color}}</b>
+    <div style="font-size: 1.5rem"> 
+      <b>{{ card.code }} {{ card.colorLabel}}</b>
     </div>
-    <div>{{ card.value }}</div>
   </div>
 </template>
 
@@ -17,10 +16,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 120px;
+    width: 100px;
     height: 120px;
     margin: 1%;
-    animation: apparition 0.8s forwards ease-in-out;
+    animation: apparition 0.4s forwards ease-in-out;
+    border-radius: 5px;
 }
 
 .card-black {
@@ -28,7 +28,7 @@
 }
 
 .card-red {
-    color: tomato;
+    color: rgb(255, 38, 0);
 }
 
 @keyframes apparition {

@@ -39,17 +39,6 @@ html, body, #app {
     display: flex;
 }
 
-.text-lose {
-    color: red;
-}
-.text-win {
-    color: green;
-}
-.text-equal {
-    color: blue;
-}
-
-
 .board {
     display: flex;
     flex-direction: column;
@@ -75,12 +64,51 @@ html, body, #app {
     justify-content: space-between !important;
 }
 
-/*   FOOTER   */
+
+/*    BOARD    */
+.score-display {
+    padding: 10px 20px;
+    margin: 10px auto;
+    background-color: white;
+    border-radius: 10px;
+    max-width: min-content;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    background-color: var(--color-dark-gray);
+    transition: 0.2s;
+}
+
+.balance-display {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min-content;
+}
+
+.balance-display > * {
+    background-color: #3c3c3c;
+    color: white;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+}
+
+.balance-display > *:first-child {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 0px !important;
+}
+.balance-display > *:last-child {
+    border-top-left-radius: 10px;
+}
+
+
+/*    FOOTER    */
 
 .footer {
     height: 100px;
     width: 100%;
-    background-color: rgb(32, 32, 32);
+    background-color: var(--color-dark-gray);
     z-index: 1;
 }
 
@@ -128,33 +156,46 @@ html, body, #app {
     cursor: pointer;
 }
 
-
-.btn-bet {
+.bg-action {
+    background-color: var(--color-action);
+}
+.btn-bet, .bg-bet {
     background-color: #9a29eb;
 }
 .btn-bet::after {
     background-color: #6e03b9;
 }
-.btn-danger {
+.btn-danger, .bg-danger {
     background-color: var(--color-danger);
 }
 .btn-danger::after {
     background-color: var(--color-danger-sub);
 }
-.btn-success {
+.btn-success, .bg-success {
     background-color: var(--color-success);
 }
 .btn-success::after {
     background-color: var(--color-success-sub);
 }
-.btn-warning {
+.btn-warning, .bg-warning {
     background-color: var(--color-warning);
 }
 .btn-warning::after {
     background-color: var(--color-warning-sub);
 }
+.btn-hit, .bg-hit {
+    background-color: var(--color-hit);
+}
+.btn-hit::after {
+    background-color: var(--color-hit-sub);
+}
 
 .btn-sm {
     width: 60px;
     min-width: unset !important;
+}
+
+
+.text-xl {
+    font-size: 1.5rem !important;
 }

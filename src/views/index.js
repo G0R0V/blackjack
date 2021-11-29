@@ -21,6 +21,7 @@ export default {
             dealerStand: false,
 
             deck: [], // deck[CardModel]
+            numberDecks: 6,
             colors: ['COEUR', 'PIQUE', 'TREFLE', 'CARREAU'],
             cards: [
                 { code: 'AS', value: 1 },
@@ -90,11 +91,15 @@ export default {
         },
 
         roundFinished() {
-            return this.userWin === true || this.userWin === false;
+            return this.userWin !== undefined;
         },
 
         doubleAllowed() {
             return this.payment * 2 <= this.money
+        },
+
+        splitAllowed() {
+            return this.userCards.length == 2 && this.userCards[0].value == this.userCards[1].value;
         }
     },
 
@@ -138,6 +143,11 @@ export default {
             // this.bet()
         },
 
+        resetGame() {
+            this.money = 100;
+            this.payment = 5;
+        },
+
         bet(payload) {
             this.payment = payload.payment;
             this.money -= this.payment;
@@ -156,10 +166,10 @@ export default {
             this.hitUserCard();
             setTimeout(() => {
                 this.hitDealerCard()
-            }, 300);
+            }, 500);
             setTimeout(() => {
                 this.hitUserCard()
-            }, 600)
+            }, 1000)
 
             // HIT BLACKJACK
             // this.userCards = [
@@ -169,10 +179,12 @@ export default {
 
         generateNewDeck() {
             this.deck = [];
-            for (let c = 0; c < this.colors.length; c++) { // Colors
-                for (let i = 0; i < this.cards.length; i++) { // Values
-                    var card = new CardModel(this.colors[c], this.cards[i].code, this.cards[i].value)
-                    this.deck.push(card);
+            for (let n = 0; n < this.numberDecks; n++) { // Number of decks
+                for (let c = 0; c < this.colors.length; c++) { // Colors
+                    for (let i = 0; i < this.cards.length; i++) { // Values
+                        var card = new CardModel(this.colors[c], this.cards[i].code, this.cards[i].value)
+                        this.deck.push(card);
+                    }
                 }
             }
         },
@@ -222,12 +234,15 @@ export default {
             this.stand();
         },
 
-        stand() {
+        async stand() {
             this.userStand = true;
 
             if (this.userScore <= 21) {
                 while (this.dealerScore < 17) {
-                    this.hitDealerCard()
+                    this.hitDealerCard();
+                    if (this.dealerScore < 17) {
+                        await this.timer(1000)
+                    }
                 }
             }
 
@@ -236,6 +251,10 @@ export default {
 
         split() {
             //Todo
+        },
+
+        timer(ms) {
+            return new Promise(res => setTimeout(res, ms));
         }
     },
 

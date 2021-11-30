@@ -95,11 +95,11 @@ export default {
         },
 
         doubleAllowed() {
-            return this.payment * 2 <= this.money
+            return this.payment <= this.money
         },
 
         splitAllowed() {
-            return this.userCards.length == 2 && this.userCards[0].value == this.userCards[1].value;
+            return this.userCards.length == 2 && this.userCards[0].code == this.userCards[1].code;
         }
     },
 
@@ -125,6 +125,9 @@ export default {
                     if (this.userWin == true) {
                         this.money += (this.payment * 2)
                     }
+                    else if (this.userWin === null && !this.isUserBlackjack) {
+                        this.money += this.payment;
+                    }
                 }
             }
         }
@@ -138,9 +141,6 @@ export default {
             this.roundStarted = false;
             this.dealerStand = false;
             this.userStand = false;
-
-            //TODO : delete after this comment
-            // this.bet()
         },
 
         resetGame() {
@@ -166,12 +166,12 @@ export default {
             this.hitUserCard();
             setTimeout(() => {
                 this.hitDealerCard()
-            }, 500);
+            }, 700);
             setTimeout(() => {
                 this.hitUserCard()
-            }, 1000)
+            }, 1400)
 
-            // HIT BLACKJACK
+            // // HIT BLACKJACK
             // this.userCards = [
             //     new CardModel("PIQUE", "AS", 11), new CardModel("PIQUE", "K", 10)
             // ]
@@ -239,10 +239,10 @@ export default {
 
             if (this.userScore <= 21) {
                 while (this.dealerScore < 17) {
-                    this.hitDealerCard();
                     if (this.dealerScore < 17) {
                         await this.timer(1000)
                     }
+                    this.hitDealerCard();
                 }
             }
 

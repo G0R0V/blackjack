@@ -1,7 +1,7 @@
-@import "variables.css";    
+@import "variables.css";
 
 html, body, #app {
-    height: 100%; 
+    height: 100%;
     margin: 0 auto;
 }
 
@@ -47,7 +47,7 @@ html, body, #app {
 }
 
 .container {
-    max-width: 700px;
+    max-width: 600px;
     margin: auto;
     padding-left: 10px;
     padding-right: 10px;
@@ -87,19 +87,45 @@ html, body, #app {
     height: min-content;
 }
 
-.balance-display > * {
+.balance-display>* {
     background-color: #3c3c3c;
     color: white;
     padding: 5px 10px;
     font-size: 1.2rem;
 }
 
-.balance-display > *:first-child {
+.balance-display>*:first-child {
     border-top-right-radius: 10px;
     border-top-left-radius: 0px !important;
 }
-.balance-display > *:last-child {
+
+.balance-display>*:last-child {
     border-top-left-radius: 10px;
+}
+
+.title-bet {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 2rem;
+    opacity: 0;
+    animation: moveupdown 2.5s infinite;
+    transition: 0.2s;
+}
+
+@keyframes moveupdown {
+    100%, 0% {
+        margin-top: -5px;
+        opacity: 0;
+    }
+    50% {
+        margin-top: 10px;
+        opacity: 1;
+    }
 }
 
 
@@ -159,33 +185,43 @@ html, body, #app {
 .bg-action {
     background-color: var(--color-action);
 }
+
 .btn-bet, .bg-bet {
     background-color: #9a29eb;
 }
+
 .btn-bet::after {
     background-color: #6e03b9;
 }
+
 .btn-danger, .bg-danger {
     background-color: var(--color-danger);
 }
+
 .btn-danger::after {
     background-color: var(--color-danger-sub);
 }
+
 .btn-success, .bg-success {
     background-color: var(--color-success);
 }
+
 .btn-success::after {
     background-color: var(--color-success-sub);
 }
+
 .btn-warning, .bg-warning {
     background-color: var(--color-warning);
 }
+
 .btn-warning::after {
     background-color: var(--color-warning-sub);
 }
+
 .btn-hit, .bg-hit {
     background-color: var(--color-hit);
 }
+
 .btn-hit::after {
     background-color: var(--color-hit-sub);
 }
@@ -199,3 +235,59 @@ html, body, #app {
 .text-xl {
     font-size: 1.5rem !important;
 }
+
+.bg-multi-color {
+    animation: multicolor 2s forwards infinite linear;
+}
+
+@keyframes multicolor {
+    100%, 0% {
+        background-color: rgb(255, 0, 0);
+    }
+
+    8% {
+        background-color: rgb(255, 127, 0);
+    }
+
+    16% {
+        background-color: rgb(204, 204, 8);
+    }
+
+    25% {
+        background-color: rgb(108, 212, 3);
+    }
+
+    33% {
+        background-color: rgb(1, 214, 1);
+    }
+
+    41% {
+        background-color: rgb(0, 255, 127);
+    }
+
+    50% {
+        background-color: rgb(0, 197, 197);
+    }
+
+    58% {
+        background-color: rgb(0, 127, 255);
+    }
+
+    66% {
+        background-color: rgb(0, 0, 255);
+    }
+
+    75% {
+        background-color: rgb(127, 0, 255);
+    }
+
+    83% {
+        background-color: rgb(255, 0, 255);
+    }
+
+    91% {
+        background-color: rgb(255, 0, 127);
+    }
+}
+
+        

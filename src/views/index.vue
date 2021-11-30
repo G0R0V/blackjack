@@ -24,12 +24,13 @@
               :key="index"
               :card="card"
             ></Card>
-            <b v-if="isUserBlackjack" style="color: red">Blackjack !</b>
           </div>
           <div
             class="score-display"
             :class="
-              userWin !== undefined
+              isUserBlackjack
+                ? 'bg-multi-color'
+                : userWin !== undefined
                 ? userWin === false
                   ? 'bg-danger'
                   : userWin === true
@@ -43,6 +44,9 @@
         </div>
       </div>
 
+      <div class="title-bet" v-if="roundFinished || !roundStarted">
+        <div>▼ Place your bets ▼</div>
+      </div>
       <!-- Balance -->
       <div class="balance-display container-flex between">
         <div>

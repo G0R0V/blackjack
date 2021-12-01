@@ -39,7 +39,7 @@
                 : ''
             "
           >
-            {{ userScore }}
+            <span v-if="lowerUserScore != userScore && !isUserBlackjack && !userStand">{{ lowerUserScore }} / </span>{{ userScore }}
           </div>
         </div>
       </div>

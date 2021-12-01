@@ -20,7 +20,7 @@ export default {
             userStand: false,
             dealerStand: false,
 
-            deck: [], // deck[CardModel]
+            deck: [],
             numberDecks: 6,
             colors: ['COEUR', 'PIQUE', 'TREFLE', 'CARREAU'],
             cards: [
@@ -48,15 +48,34 @@ export default {
     computed: {
         userScore() {
             if (this.userCards.length == 0) return 0;
-            return this.userCards.reduce(function (accumulator, currentCard) {
+            var maxScore= this.userCards.reduce(function (accumulator, currentCard) {
                 return accumulator + currentCard.value;
+            }, 0);
+
+            if (maxScore > 21) return this.lowerUserScore;
+            return maxScore
+        },
+
+        lowerUserScore() {
+            if (this.userCards.length == 0) return 0;
+            return this.userCards.reduce((accumulator, currentCard) => {
+                return accumulator + (currentCard.code == "AS" && this.userCards.length > 1 ? 1 : currentCard.value);
             }, 0);
         },
 
         dealerScore() {
             if (this.dealerCards.length == 0) return 0;
-            return this.dealerCards.reduce(function (accumulator, currentCard) {
+            var maxScore = this.dealerCards.reduce(function (accumulator, currentCard) {
                 return accumulator + currentCard.value;
+            }, 0);
+            if (maxScore > 21) return this.lowerDealerScore;
+            return maxScore;
+        },
+
+        lowerDealerScore() {
+            if (this.dealerCards.length == 0) return 0;
+            return this.dealerCards.reduce((accumulator, currentCard) => {
+                return accumulator + (currentCard.code == "AS" ? 1 : currentCard.value);
             }, 0);
         },
 
@@ -104,26 +123,28 @@ export default {
     },
 
     watch: {
-        isUserBlackjack: {
-            handler() {
-                if (this.isUserBlackjack) {
-                    this.money += (this.payment * 2.5)
-                    this.stand();
-                }
-            }
-        },
+        // isUserBlackjack: {
+        //     handler() {
+        //         if (this.isUserBlackjack) {
+        //             this.stand();
+        //         }
+        //     }
+        // },
 
         userScore: {
             handler() {
-                if (this.userScore >= 21) this.stand();
+                if (this.userScore >= 21)  {
+                    this.stand();
+                }
             }
         },
 
         roundFinished: {
             handler() {
                 if (this.roundFinished) {
-                    if (this.userWin == true) {
+                    if (this.userWin === true) {
                         this.money += (this.payment * 2)
+                        if (this.isUserBlackjack) this.money += this.payment * 0.5
                     }
                     else if (this.userWin === null && !this.isUserBlackjack) {
                         this.money += this.payment;
@@ -206,12 +227,14 @@ export default {
             return card;
         },
 
-        hitUserCard() {
+        hitUserCard(double = false) {
             var card = this.hitCard();
 
             if (card.code == 'AS' && this.userScore + 11 <= 21) {
                 card.value = 11;
             }
+
+            if (double) card.double = true;
 
             this.userCards.push(card);
         },
@@ -230,7 +253,7 @@ export default {
             this.money -= this.payment;
             this.payment *= 2;
 
-            this.hitUserCard();
+            this.hitUserCard(true);
             this.stand();
         },
 

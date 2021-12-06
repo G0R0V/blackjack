@@ -5,6 +5,7 @@ export default class CardModel {
         this.color = color;
         this.code = code;
         this.value = value;
+        this.double = false;
 
         var colorLabel;
         switch (this.color) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="isBlack ? 'card-black' : 'card-red'">
+  <div class="card" :class="{ 'card-black': isBlack, 'card-red': !isBlack , 'rotate': card.double }">
     <div class="card-value card-value-left">
       <div>{{ card.code }}</div>
       <div>{{ card.colorLabel }}</div>
@@ -86,5 +86,8 @@
     }
   }
 
-        
+.rotate {
+  transform: rotate(-90deg);
+  border: 1px solid rgb(164, 164, 164);
+}
 </style>

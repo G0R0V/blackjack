@@ -64,7 +64,7 @@ export default {
             this.$emit("double")
         },
 
-        slipt() {
+        split() {
             this.$emit("split")
         },
 

@@ -36,7 +36,8 @@ export default {
 
     data() {
         return {
-            payment: 5
+            payment: 10,
+            stepPayment: 10
         }
     },
 
@@ -76,14 +77,14 @@ export default {
         },
 
         plus() {
-            if (this.payment + 5 <= this.money) {
-                this.payment += 5;
+            if (this.payment + this.stepPayment <= this.money) {
+                this.payment += this.stepPayment;
             }
         },
 
         minus() {
-            if (this.payment - 5 > 0) {
-                this.payment -= 5;
+            if (this.payment - this.stepPayment > 0) {
+                this.payment -= this.stepPayment;
             }
         }
 

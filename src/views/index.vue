@@ -1,5 +1,10 @@
 <template>
   <div id="boardgame">
+    <div class="speaker" @click="switchSound()">
+      <span v-if="!allowSound">🔈</span><span v-else>🔊</span>
+    </div>
+
+
     <div class="board">
       <div v-if="roundStarted" class="boardcard">
         <!-- Dealer's cards -->

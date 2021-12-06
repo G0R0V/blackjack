@@ -27,7 +27,7 @@
   width: 90px;
   height: 120px;
   margin: 1%;
-  animation: apparition 0.4s forwards ease-in-out;
+  animation: apparitionCard 0.4s forwards ease-in-out;
   border-radius: 5px;
   position: relative;
 }
@@ -73,12 +73,18 @@
   font-weight: 700;
   font-size: 2rem;
 }
-@keyframes apparition {
-  from {
-    opacity: 0;
+
+
+@keyframes apparitionCard {
+    from {
+      opacity: 0;
+      width: 0px;
+    }
+    to {
+      opacity: 1;
+      width: 90px;
+    }
   }
-  to {
-    opacity: 1;
-  }
-}
+
+        
 </style>

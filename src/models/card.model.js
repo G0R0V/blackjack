@@ -24,7 +24,7 @@ export default class CardModel {
         this.colorLabel = colorLabel;
     }
 
-    get imagePath() {
-        return `@/assets/images/cards/${this.color}_${this.code}`;
+    playAudio() {
+        new Audio(require('@/assets/audios/card-hit.mp3')).play()
     }
 }

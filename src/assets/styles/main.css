@@ -64,6 +64,15 @@ html, body, #app {
     justify-content: space-between !important;
 }
 
+.speaker {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.2rem;
+}
+
 
 /*    BOARD    */
 .score-display {
@@ -132,10 +141,13 @@ html, body, #app {
 /*    FOOTER    */
 
 .footer {
-    height: 100px;
+    min-height: 100px;
     width: 100%;
     background-color: var(--color-dark-gray);
     z-index: 1;
+}
+.footer > * {
+    animation: apparition 0.4s forwards;
 }
 
 .payment-display {
@@ -289,5 +301,15 @@ html, body, #app {
         background-color: rgb(255, 0, 127);
     }
 }
+
+
+@keyframes apparition {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
         

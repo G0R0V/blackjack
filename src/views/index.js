@@ -40,8 +40,9 @@ export default {
             ],
 
             userCards: [],
-            dealerCards: []
+            dealerCards: [],
 
+            allowSound: true
         }
     },
 
@@ -135,7 +136,6 @@ export default {
 
     methods: {
         startGame() {
-            this.deck = [];
             this.userCards = [];
             this.dealerCards = [];
             this.roundStarted = false;
@@ -157,10 +157,6 @@ export default {
 
         startRound() {
             this.roundStarted = true;
-
-            // Deck
-            this.generateNewDeck();
-            this.shuffleDeck();
 
             // Hit 
             this.hitUserCard();
@@ -197,10 +193,19 @@ export default {
         },
 
         hitCard() {
+            if (this.deck.length == 0) {
+                this.generateNewDeck();
+                this.shuffleDeck();
+            }
+
             var card = this.deck.shift();
             if (card == undefined) {
                 alert("Card undefined : deck empty");
                 return null
+            }
+
+            if (this.allowSound) {
+                card.playAudio();
             }
 
             return card;
@@ -255,6 +260,10 @@ export default {
 
         timer(ms) {
             return new Promise(res => setTimeout(res, ms));
+        },
+
+        switchSound() {
+            this.allowSound = !this.allowSound;
         }
     },
 
